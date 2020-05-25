@@ -11,10 +11,14 @@ nunjucks.configure("views", {
   express: app,
 });
 
-var corsOptions = {
+const corsOptions = {
   origin: "https://www.briansmithdev.com",
-  optionsSuccessStatus: 200,
 };
+
+// var corsOptions = {
+//   origin: "https://www.briansmithdev.com",
+//   optionsSuccessStatus: 200,
+// };
 
 app.use(
   bodyParser.urlencoded({
@@ -22,12 +26,7 @@ app.use(
   })
 );
 
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  next();
-});
-
-app.get("/", cors(corsOptions), (req, res) => {
+app.get("/", cors(corsOptions), (req, res, next) => {
   mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
