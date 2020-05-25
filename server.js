@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const nunjucks = require("nunjucks");
 const Hit = require("./models/hit");
+const cors = require("cors");
 
 nunjucks.configure("views", {
   autoescape: true,
@@ -16,16 +17,7 @@ app.use(
   })
 );
 
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "https://www.briansmithdev.com");
-
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-
-  next();
-});
+app.use(cors());
 
 app.get("/", (req, res) => {
   mongoose.connect(process.env.MONGODB_URI, {
