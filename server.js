@@ -17,27 +17,11 @@ app.use(
   })
 );
 
-app.use(cors({ credentials: true }));
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Credentials", true);
-  res.header("Access-Control-Allow-Methods", "GET,POST");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept"
-  );
-
-  let allowedOrigins = ["https://www.briansmithdev.com"];
-  const origin = req.headers.origin;
-  if (allowedOrigins.includes(origin)) {
-    res.setHeader("Access-Control-Allow-Origin", origin);
-  }
-
-  if (req.method === "OPTIONS") {
-    res.sendStatus(200);
-  } else {
-    next();
-  }
-});
+app.use(
+  cors({
+    origin: "https://www.briansmithdev.com",
+  })
+);
 
 app.get("/", (req, res) => {
   mongoose.connect(process.env.MONGODB_URI, {
