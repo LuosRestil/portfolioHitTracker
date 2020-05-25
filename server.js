@@ -61,10 +61,12 @@ app.post("/hit", cors(corsOptions), (req, res) => {
 
   Hit.find((err, hits) => {
     if (err) {
+      console.log("Error getting hits from db...");
       mongoose.connection.close();
       return res.status(400);
     }
     if (hits.length > 0) {
+      console.log("Hits found...");
       let hit = hits[0];
       hit.hits += 1;
       hit.save((err, docs) => {
@@ -75,6 +77,7 @@ app.post("/hit", cors(corsOptions), (req, res) => {
         mongoose.connection.close();
       });
     } else {
+      console.log("No hits found, creating hits for first time...");
       let hit = new Hit({ hits: 1 });
       hit.save((err, docs) => {
         if (err) {
