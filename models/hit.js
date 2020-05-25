@@ -7,4 +7,4 @@ const HitSchema = new Schema({
 
 const Hit = mongoose.model("Hit", HitSchema);
 
-module.exports = Issue;
+module.exports = Hit;
