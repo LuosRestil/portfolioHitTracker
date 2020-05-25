@@ -1,7 +1,6 @@
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
-const cors = require("cors");
 const mongoose = require("mongoose");
 const nunjucks = require("nunjucks");
 const Hit = require("./models/hit");
@@ -11,22 +10,24 @@ nunjucks.configure("views", {
   express: app,
 });
 
-const corsOptions = {
-  origin: "https://www.briansmithdev.com",
-};
-
-// var corsOptions = {
-//   origin: "https://www.briansmithdev.com",
-//   optionsSuccessStatus: 200,
-// };
-
 app.use(
   bodyParser.urlencoded({
     extended: true,
   })
 );
 
-app.get("/", cors(corsOptions), (req, res, next) => {
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "https://www.briansmithdev.com");
+
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+
+  next();
+});
+
+app.get("/", (req, res) => {
   mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -52,7 +53,7 @@ app.get("/", cors(corsOptions), (req, res, next) => {
   });
 });
 
-app.post("/hit", cors(corsOptions), (req, res) => {
+app.post("/hit", (req, res) => {
   console.log("hit route...");
   // add hit to db
   mongoose.connect(process.env.MONGODB_URI, {
