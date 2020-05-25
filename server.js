@@ -20,6 +20,10 @@ app.use(
 app.use(
   cors({
     origin: "https://www.briansmithdev.com",
+    methods: "GET,POST,PUT,DELETE", //<-- allowed methods (restrict to your needs)
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+    credentials: true,
   })
 );
 
