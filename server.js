@@ -19,7 +19,7 @@ app.use(
 
 app.use(
   cors({
-    origin: "https://www.briansmithdev.com",
+    origin: "http://www.briansmithdev.com",
   })
 );
 
