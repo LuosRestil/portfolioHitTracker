@@ -49,6 +49,7 @@ app.get("/", cors(corsOptions), (req, res) => {
 });
 
 app.post("/hit", cors(corsOptions), (req, res) => {
+  console.log("hit route...");
   // add hit to db
   mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
@@ -59,6 +60,7 @@ app.post("/hit", cors(corsOptions), (req, res) => {
     console.log("Database connection successful!");
   });
 
+  console.log("querying db...");
   Hit.find((err, hits) => {
     if (err) {
       console.log("Error getting hits from db...");
