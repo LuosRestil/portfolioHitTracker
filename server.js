@@ -22,6 +22,11 @@ app.use(
   })
 );
 
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  next();
+});
+
 app.get("/", cors(corsOptions), (req, res) => {
   mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
