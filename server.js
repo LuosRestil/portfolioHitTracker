@@ -37,7 +37,7 @@ app.get("/", cors(corsOptions), (req, res) => {
       throw err;
       mongoose.connection.close();
     }
-    if (hits.length < 1) {
+    if (hits.length > 0) {
       let hit = hits[0];
       mongoose.connection.close();
       res.render("index.html", { hits: hit.hits });
@@ -64,7 +64,7 @@ app.post("/hit", cors(corsOptions), (req, res) => {
       throw err;
       mongoose.connection.close();
     }
-    if (hits.length < 1) {
+    if (hits.length > 0) {
       let hit = hits[0];
       hit.hits += 1;
       hit.save((err, docs) => {
