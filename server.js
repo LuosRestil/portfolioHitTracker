@@ -34,8 +34,8 @@ app.get("/", cors(corsOptions), (req, res) => {
 
   Hit.find((err, hits) => {
     if (err) {
-      throw err;
       mongoose.connection.close();
+      res.render("error.html");
     }
     if (hits.length > 0) {
       let hit = hits[0];
@@ -61,15 +61,16 @@ app.post("/hit", cors(corsOptions), (req, res) => {
 
   Hit.find((err, hits) => {
     if (err) {
-      throw err;
       mongoose.connection.close();
+      return res.status(400);
     }
     if (hits.length > 0) {
       let hit = hits[0];
       hit.hits += 1;
       hit.save((err, docs) => {
         if (err) {
-          throw err;
+          mongoose.connection.close();
+          return res.status(400);
         }
         mongoose.connection.close();
       });
@@ -77,12 +78,14 @@ app.post("/hit", cors(corsOptions), (req, res) => {
       let hit = new Hit({ hits: 1 });
       hit.save((err, docs) => {
         if (err) {
-          throw err;
+          mongoose.connection.close();
+          return res.status(400);
         }
         mongoose.connection.close();
       });
     }
   });
+  return res.status(200);
 });
 
 let port = process.env.PORT;
