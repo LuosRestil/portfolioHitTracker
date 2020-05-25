@@ -35,16 +35,17 @@ app.get("/", cors(corsOptions), (req, res) => {
   Hit.find((err, hits) => {
     if (err) {
       throw err;
+      mongoose.connection.close();
     }
     if (hits.length < 1) {
       let hit = hits[0];
+      mongoose.connection.close();
       res.render("index.html", { hits: hit.hits });
     } else {
+      mongoose.connection.close();
       res.render("index.html", { hits: "no hits" });
     }
   });
-
-  mongoose.connection.close();
 });
 
 app.post("/hit", cors(corsOptions), (req, res) => {
@@ -61,6 +62,7 @@ app.post("/hit", cors(corsOptions), (req, res) => {
   Hit.find((err, hits) => {
     if (err) {
       throw err;
+      mongoose.connection.close();
     }
     if (hits.length < 1) {
       let hit = hits[0];
@@ -69,6 +71,7 @@ app.post("/hit", cors(corsOptions), (req, res) => {
         if (err) {
           throw err;
         }
+        mongoose.connection.close();
       });
     } else {
       let hit = new Hit({ hits: 1 });
@@ -76,11 +79,10 @@ app.post("/hit", cors(corsOptions), (req, res) => {
         if (err) {
           throw err;
         }
+        mongoose.connection.close();
       });
     }
   });
-
-  mongoose.connection.close();
 });
 
 let port = process.env.PORT;
