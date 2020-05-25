@@ -3,7 +3,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const mongoose = require("mongoose");
-require("nunjucks");
+const nunjucks = require("nunjucks");
 const Hit = require("./models/hit");
 
 nunjucks.configure("views", {
