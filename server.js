@@ -75,7 +75,7 @@ app.post("/hit", (req, res) => {
       });
     }
     console.log("returning status 200...");
-    return res.status(200);
+    return res.send({ msg: "success" });
   });
 });
 
