@@ -74,9 +74,9 @@ app.post("/hit", (req, res) => {
         }
       });
     }
+    console.log("returning status 200...");
+    return res.status(200);
   });
-  console.log("returning status 200...");
-  return res.status(200);
 });
 
 let port = process.env.PORT;
