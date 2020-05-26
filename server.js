@@ -17,13 +17,11 @@ app.use(
   })
 );
 
-// app.use(
-//   cors({
-//     origin: "https://www.briansmithdev.com",
-//   })
-// );
-
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://www.briansmithdev.com",
+  })
+);
 
 app.get("/", (req, res) => {
   mongoose.connect(process.env.MONGODB_URI, {
@@ -51,7 +49,7 @@ app.get("/", (req, res) => {
   });
 });
 
-app.post("/hit", (req, res) => {
+app.get("/hit", (req, res) => {
   console.log("hit route...");
   // add hit to db
   mongoose.connect(process.env.MONGODB_URI, {
