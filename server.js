@@ -49,7 +49,7 @@ app.get("/", (req, res) => {
   });
 });
 
-app.get("/hit", (req, res) => {
+app.post("/hit", (req, res) => {
   console.log("hit route...");
   // add hit to db
   mongoose.connect(process.env.MONGODB_URI, {
