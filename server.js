@@ -17,11 +17,13 @@ app.use(
   })
 );
 
-app.use(
-  cors({
-    origin: "https://www.briansmithdev.com",
-  })
-);
+// app.use(
+//   cors({
+//     origin: "https://www.briansmithdev.com",
+//   })
+// );
+
+app.use(cors());
 
 app.get("/", (req, res) => {
   mongoose.connect(process.env.MONGODB_URI, {
