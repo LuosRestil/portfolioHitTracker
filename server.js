@@ -47,34 +47,27 @@ app.get("/", (req, res) => {
 });
 
 app.post("/hit", (req, res) => {
-  console.log("hit route...");
   // add hit to db
-  console.log("querying db...");
   Hit.find((err, hits) => {
     if (err) {
-      console.log("Error getting hits from db...");
-      return res.status(400);
+      return res.send({ msg: "error" });
     }
-    console.log("hits.length == " + hits.length);
     if (hits.length > 0) {
-      console.log("Hits found...");
       let hit = hits[0];
       hit.hits += 1;
       hit.save((err, docs) => {
         if (err) {
-          return res.status(400);
+          return res.send({ msg: "error" });
         }
       });
     } else {
-      console.log("No hits found, creating hits for first time...");
       let hit = new Hit({ hits: 1 });
       hit.save((err, docs) => {
         if (err) {
-          return res.status(400);
+          return res.send({ msg: "error" });
         }
       });
     }
-    console.log("returning status 200...");
     return res.send({ msg: "success" });
   });
 });
