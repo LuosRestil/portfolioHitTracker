@@ -55,6 +55,7 @@ app.post("/hit", (req, res) => {
       console.log("Error getting hits from db...");
       return res.status(400);
     }
+    console.log("hits.length == " + hits.length);
     if (hits.length > 0) {
       console.log("Hits found...");
       let hit = hits[0];
