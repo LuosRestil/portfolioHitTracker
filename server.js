@@ -23,28 +23,25 @@ app.use(
   })
 );
 
-app.get("/", (req, res) => {
-  mongoose.connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-  });
-  mongoose.connection.on("connected", () => {
-    console.log("Database connection successful!");
-  });
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+});
+mongoose.connection.on("connected", () => {
+  console.log("Database connection successful!");
+});
 
+app.get("/", (req, res) => {
   Hit.find((err, hits) => {
     if (err) {
-      mongoose.connection.close();
-      res.render("error.html");
+      return res.render("error.html");
     }
     if (hits.length > 0) {
       let hit = hits[0];
-      mongoose.connection.close();
-      res.render("index.html", { hits: hit.hits });
+      return res.render("index.html", { hits: hit.hits });
     } else {
-      mongoose.connection.close();
-      res.render("index.html", { hits: "no hits" });
+      return res.render("index.html", { hits: "no hits" });
     }
   });
 });
@@ -52,20 +49,10 @@ app.get("/", (req, res) => {
 app.post("/hit", (req, res) => {
   console.log("hit route...");
   // add hit to db
-  mongoose.connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-  });
-  mongoose.connection.on("connected", () => {
-    console.log("Database connection successful!");
-  });
-
   console.log("querying db...");
   Hit.find((err, hits) => {
     if (err) {
       console.log("Error getting hits from db...");
-      mongoose.connection.close();
       return res.status(400);
     }
     if (hits.length > 0) {
@@ -74,23 +61,20 @@ app.post("/hit", (req, res) => {
       hit.hits += 1;
       hit.save((err, docs) => {
         if (err) {
-          mongoose.connection.close();
           return res.status(400);
         }
-        mongoose.connection.close();
       });
     } else {
       console.log("No hits found, creating hits for first time...");
       let hit = new Hit({ hits: 1 });
       hit.save((err, docs) => {
         if (err) {
-          mongoose.connection.close();
           return res.status(400);
         }
-        mongoose.connection.close();
       });
     }
   });
+  console.log("returning status 200...");
   return res.status(200);
 });
 
